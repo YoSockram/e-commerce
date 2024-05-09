@@ -1,0 +1,163 @@
+/* Barra de navegación */
+header {
+  background-color: #444;
+  color: white;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav li {
+  margin: 0 12px;
+  cursor: pointer;
+}
+
+nav li:hover {
+  background-color: #555;
+}
+
+
+/* Estilos de la página dividida en dos */
+
+/* Estilos generales */
+.split {
+  height: 100%;
+  width: 50%;
+  /* position: fixed; */
+  position: relative;
+  z-index: 0;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Estilos para la parte izquierda */
+.left {
+  left: 0;
+  float: left;
+}
+
+/* Estilos para la parte derecha */
+.right {
+  right: 0;
+  float: right;
+}
+
+/* Estilos para los contenedores de los formularios y la respuesta */
+.form-section,
+.response-section {
+  height: 75%;
+  width: 50%;
+  padding: 2rem;
+  margin: 0;
+}
+
+.response-section {
+  width: 60%;
+}
+
+/* Estilos para los contenedores de los formularios */
+.form-container,
+.response-container {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.75);
+}
+
+/* Estilos para las etiquetas de los formularios */
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos para los campos de los formularios */
+.form-input {
+  display: block;
+  margin-bottom: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Estilos para los botones de los formularios */
+.form-btn {
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* Estilos para el nombre del campo de la respuesta */
+.field-name {
+  font-weight: bold;
+}
+
+/* Estilos para los datos de respuesta */
+.response-data {
+  font-size: 0.8rem;
+}
+
+/* Estilos para el texto que indica que se ha enviado una respuesta */
+.post-response {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Estilos para los párrafos dentro del contenedor de respuesta */
+.response-container p {
+  font-size: 18px;
+  /* font-weight: bold; */
+  margin-bottom: 5px;
+}
+
+/* Estilo para el contenedor de los botones de Anterior y Siguiente */
+.nav-btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Estilos para los botones de navegación de los artículos en la lista */
+.nav-btn {
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  /* reducir el relleno */
+  cursor: pointer;
+  font-size: 0.8rem;
+  /* reducir el tamaño del texto */
+}
+
+div img {
+  max-width: 160px;
+  max-height: 160px;
+}
+
+.item-details {
+  background-color: #e5e5e5;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.75);
+}

@@ -1,0 +1,184 @@
+<header>
+    <nav>
+        <ul>
+            <li (click)="selectedAction='add'">Añadir</li>
+            <li (click)="selectedAction='searchAll'">Buscar todo</li>
+            <li (click)="selectedAction='filter'">Filtrar</li>
+            <li (click)="selectedAction='search'">Buscar por ID</li>
+            <li (click)="update(0)">Actualizar</li>
+            <li (click)="selectedAction='delete'">Borrar</li>
+        </ul>
+    </nav>
+</header>
+
+<div class="split left">
+    <div class="form-section">
+        <div class="form-container">
+            <label class="form-label">ID Usuario: </label>
+            <input type="text" [(ngModel)]="idUsuario" name="idUsuario" class="form-input" />
+        </div>
+        <!-- Formulario para añadir a la base de datos -->
+        <form *ngIf="selectedAction === 'add'" (ngSubmit)="postInBD()" class="form-container">
+            <label class="form-label">Nombre:</label>
+            <input type="text" [(ngModel)]="savePocionItem.nombre" name="nombre" class="form-input">
+            <br>
+            <label class="form-label">Duracion:</label>
+            <input type="text" [(ngModel)]="savePocionItem.duracion" name="duracion" class="form-input">
+            <br>
+            <label class="form-label">Arrojadiza:</label>
+            <input type="checkbox" [(ngModel)]="savePocionItem.arrojadiza" name="arrojadiza" class="form-input">
+            <br>
+            <label class="form-label">Cantidad:</label>
+            <input type="text" [(ngModel)]="savePocionItem.cantidad" name="cantidad" class="form-input">
+            <br>
+            <label class="form-label">Precio:</label>
+            <input type="text" [(ngModel)]="savePocionItem.precio" name="precio" class="form-input">
+            <br>
+            <label class="form-label">URL de la imagen:</label>
+            <input type="text" [(ngModel)]="savePocionItem.imagen" name="imagen" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Enviar</button>
+        </form>
+        <!-- Formulario para filtrar por Nombre -->
+        <form *ngIf="selectedAction === 'filter'" (ngSubmit)="filterData(1)" class="form-container">
+            <label class="form-label">Nombre:</label>
+            <input type="text" [(ngModel)]="nameTag" name="nombre" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Filtrar por nombre</button>
+        </form>
+        <!-- Formulario para filtrar por Arrojadiza -->
+        <form *ngIf="selectedAction === 'filter'" (ngSubmit)="filterData(2)" class="form-container">
+            <label class="form-label">Arrojadiza:</label>
+            <select [(ngModel)]="isArrojadiza" name="arrojadiza" class="form-input">
+                <option [ngValue]="null">Cualquiera</option>
+                <option [ngValue]="true">Sí</option>
+                <option [ngValue]="false">No</option>
+            </select>
+            <br>
+            <button type="submit" class="form-btn">Filtrar por arrojadiza</button>
+        </form>
+        <!-- Formulario para filtrar por Cantidad -->
+        <form *ngIf="selectedAction === 'filter'" (ngSubmit)="filterData(3)" class="form-container">
+            <label class="form-label">Cantidad mínima:</label>
+            <input type="text" [(ngModel)]="cantidad_min" name="cantidad-min" class="form-input">
+            <br>
+            <label class="form-label">Cantidad máxima:</label>
+            <input type="text" [(ngModel)]="cantidad_max" name="cantidad-max" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Filtrar por cantidad</button>
+        </form>
+        <!-- Formulario para filtrar por Duración -->
+        <form *ngIf="selectedAction === 'filter'" (ngSubmit)="filterData(4)" class="form-container">
+            <label class="form-label">Duración mínima:</label>
+            <input type="text" [(ngModel)]="duracion_min" name="duracionMin" class="form-input">
+            <br>
+            <label class="form-label">Duración máxima:</label>
+            <input type="text" [(ngModel)]="duracion_max" name="duracion-max" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Filtrar por duración</button>
+            <br>
+        </form>
+        <!-- Formulario para filtrar por Precio -->
+        <form *ngIf="selectedAction === 'filter'" (ngSubmit)="filterData(5)" class="form-container">
+            <label class="form-label">Precio mínimo:</label>
+            <input type="text" [(ngModel)]="precio_min" name="precio-min" class="form-input">
+            <br>
+            <label class="form-label">Precio máximo:</label>
+            <input type="text" [(ngModel)]="precio_max" name="precio-max" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Filtrar por precio</button>
+            <br>
+        </form>
+        <!-- Formulario para buscar por ID -->
+        <form *ngIf="selectedAction === 'search'" (ngSubmit)="searchByID()" class="form-container">
+            <label class="form-label">ID:</label>
+            <input type="text" [(ngModel)]="searchID" name="searchID" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Buscar</button>
+        </form>
+        <!-- Formulario para obtener todos los objetos de la base de datos -->
+        <form *ngIf="selectedAction === 'searchAll'" (ngSubmit)="getAll()" class="form-container">
+            <label class="form-label">Buscar todo:</label>
+            <br>
+            <button type="submit" class="form-btn">Buscar</button>
+        </form>
+        <!-- Formulario para eliminar un objeto de la base de datos -->
+        <form *ngIf="selectedAction === 'delete'" (ngSubmit)="deleteItem()" class="form-container">
+            <label class="form-label">ID:</label>
+            <input type="text" [(ngModel)]="deleteID" name="deleteItem" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Eliminar</button>
+        </form>
+        <!-- Formulario para actualizar un objeto de la base de datos -->
+        <form *ngIf="selectedAction === 'update'" (ngSubmit)="putInBD()" class="form-container">
+            <label class="form-label">Nombre:</label>
+            <input type="text" [(ngModel)]="updatePocionItem.nombre" name="nombre" class="form-input">
+            <br>
+            <label class="form-label">Duracion:</label>
+            <input type="text" [(ngModel)]="updatePocionItem.duracion" name="duracion" class="form-input">
+            <br>
+            <label class="form-label">Arrojadiza:</label>
+            <input type="checkbox" [(ngModel)]="updatePocionItem.arrojadiza" name="arrojadiza" class="form-input">
+            <br>
+            <label class="form-label">Cantidad:</label>
+            <input type="text" [(ngModel)]="updatePocionItem.cantidad" name="cantidad" class="form-input">
+            <br>
+            <label class="form-label">Precio:</label>
+            <input type="text" [(ngModel)]="updatePocionItem.precio" name="precio" class="form-input">
+            <br>
+            <label class="form-label">URL de la imagen:</label>
+            <input type="text" [(ngModel)]="updatePocionItem.imagen" name="imagen" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Actualizar</button>
+        </form>
+    </div>
+</div>
+
+<div class="split right">
+    <div class="response-section">
+        <div *ngIf="printResponse" class="response-container">
+            <p class="response-data"><b>ID:</b> {{ getPocionItem._id }}</p>
+            <p class="response-data"><b>Nombre:</b> {{ getPocionItem.nombre }}</p>
+            <p class="response-data"><b>Duración:</b> {{ getPocionItem.duracion }}</p>
+            <p class="response-data"><b>Arrojadiza:</b> {{ getPocionItem.arrojadiza }}</p>
+            <p class="response-data"><b>Cantidad:</b> {{ getPocionItem.cantidad }}</p>
+            <p class="response-data"><b>Precio:</b> {{ getPocionItem.precio }}</p>
+            <img src={{getPocionItem.imagen}} class="image" />
+        </div>
+        <div *ngFor="let pocion of pocionArray; let i = index">
+            <div *ngIf="printAll" class="response-container">
+                <div class="nav-btn-container">
+                    <button (click)="seleccionar(i)" class="nav-btn">Seleccionar</button>
+                </div>
+                <p class="response-data"><b>ID:</b> {{ pocion._id }}</p>
+                <p class="response-data"><b>Nombre:</b> {{ pocion.nombre }}</p>
+                <p class="response-data"><b>Duración:</b> {{ pocion.duracion }}</p>
+                <p class="response-data"><b>Arrojadiza:</b> {{ pocion.arrojadiza }}</p>
+                <p class="response-data"><b>Cantidad:</b> {{ pocion.cantidad }}</p>
+                <p class="response-data"><b>Precio:</b> {{ pocion.precio }}</p>
+                <img src={{pocion.imagen}} class="image" />
+            </div>
+        </div>
+        <div *ngFor="let pocion of pocionArray; let i = index">
+            <div *ngIf="printFilter" class="response-container">
+                <div class="nav-btn-container">
+                    <button (click)="seleccionar(i)" class="nav-btn">Seleccionar</button>
+                </div>
+                <p class="response-data"><b>ID:</b> {{ pocion._id }}</p>
+                <p class="response-data"><b>Nombre:</b> {{ pocion.nombre }}</p>
+                <p class="response-data"><b>Duración:</b> {{ pocion.duracion }}</p>
+                <p class="response-data"><b>Arrojadiza:</b> {{ pocion.arrojadiza }}</p>
+                <p class="response-data"><b>Cantidad:</b> {{ pocion.cantidad }}</p>
+                <p class="response-data"><b>Precio:</b> {{ pocion.precio }}</p>
+                <img src={{pocion.imagen}} class="image" />
+
+            </div>
+        </div>
+        <div *ngIf="printDelete">
+            <p class="post-response">Objeto Eliminado</p>
+        </div>
+    </div>
+    <div *ngIf="printAddCorrectly" class="response-container">
+        <p class="post-response">Registro Completado</p>
+    </div>
+</div>

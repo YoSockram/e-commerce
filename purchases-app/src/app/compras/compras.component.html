@@ -1,0 +1,242 @@
+<header>
+    <nav>
+        <ul>
+            <li (click)="selectedAction='items'">Lista de Artículos</li>
+            <li (click)="selectedAction='buy'">Comprar</li>
+            <li (click)="selectedAction='history'">Pedidos</li>
+            <li (click)="selectedAction='update'">Modificar</li>
+            <li (click)="selectedAction='delete'">Eliminar</li>
+        </ul>
+    </nav>
+</header>
+
+<div class="split left">
+    <div class="form-section">
+        <div *ngIf="selectedAction !== 'buy'" class="form-container">
+            <label class="form-label">ID Usuario: </label>
+            <input type="text" [(ngModel)]="idUsuario" name="idUsuario" class="form-input" />
+        </div>
+        <!-- Formulario para listar todos los articulos -->
+        <form *ngIf="selectedAction === 'items'" (ngSubmit)="getAll()" class="form-container">
+            <label class="form-label">Buscar todo:</label>
+            <br>
+            <button type="submit" class="form-btn">Buscar</button>
+        </form>
+        <!-- Formulario para buscar por ID -->
+        <form *ngIf="selectedAction === 'items'" (ngSubmit)="searchByID()" class="form-container">
+            <label class="form-label">ID del artículo:</label>
+            <input type="text" [(ngModel)]="searchID" name="searchID" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Buscar</button>
+        </form>
+        <!-- Formulario para filtrar por Nombre -->
+        <form *ngIf="selectedAction === 'items'" (ngSubmit)="filterData(1)" class="form-container">
+            <label class="form-label">Nombre:</label>
+            <input type="text" [(ngModel)]="nameTag" name="nombre" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Filtrar por nombre</button>
+        </form>
+        <!-- Formulario para filtrar por Arrojadiza -->
+        <form *ngIf="selectedAction === 'items'" (ngSubmit)="filterData(2)" class="form-container">
+            <label class="form-label">Arrojadiza:</label>
+            <select [(ngModel)]="isArrojadiza" name="arrojadiza" class="form-input">
+                <option [ngValue]="null">Cualquiera</option>
+                <option [ngValue]="true">Sí</option>
+                <option [ngValue]="false">No</option>
+            </select>
+            <br>
+            <button type="submit" class="form-btn">Filtrar por arrojadiza</button>
+        </form>
+        <!-- Formulario para filtrar por Cantidad -->
+        <form *ngIf="selectedAction === 'items'" (ngSubmit)="filterData(3)" class="form-container">
+            <label class="form-label">Cantidad mínima:</label>
+            <input type="text" [(ngModel)]="cantidad_min" name="cantidad-min" class="form-input">
+            <br>
+            <label class="form-label">Cantidad máxima:</label>
+            <input type="text" [(ngModel)]="cantidad_max" name="cantidad-max" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Filtrar por cantidad</button>
+        </form>
+        <!-- Formulario para filtrar por Duración -->
+        <form *ngIf="selectedAction === 'items'" (ngSubmit)="filterData(4)" class="form-container">
+            <label class="form-label">Duración mínima:</label>
+            <input type="text" [(ngModel)]="duracion_min" name="duracionMin" class="form-input">
+            <br>
+            <label class="form-label">Duración máxima:</label>
+            <input type="text" [(ngModel)]="duracion_max" name="duracion-max" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Filtrar por duración</button>
+            <br>
+        </form>
+        <!-- Formulario para filtrar por Precio -->
+        <form *ngIf="selectedAction === 'items'" (ngSubmit)="filterData(5)" class="form-container">
+            <label class="form-label">Precio mínimo:</label>
+            <input type="text" [(ngModel)]="precio_min" name="precio-min" class="form-input">
+            <br>
+            <label class="form-label">Precio máximo:</label>
+            <input type="text" [(ngModel)]="precio_max" name="precio-max" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Filtrar por precio</button>
+            <br>
+        </form>
+        <!-- Formulario para realizar una compra -->
+        <div *ngIf="selectedAction === 'buy'" class="form-container">
+            <label class="form-label">ID Usuario: </label>
+            <input type="text" [(ngModel)]="idUsuario" name="idUsuario" class="form-input" />
+            <label class="form-label">Seleccione previamente el artículo que desea comprar.</label>
+        </div>
+        <form *ngIf="selectedAction === 'buy'" (ngSubmit)="buyItem()" class="form-container">
+            <label class="form-label">ID Artículo:</label>
+            <input type="text" [(ngModel)]="getPocionItem._id" name="id" class="form-input" disabled>
+            <br>
+            <label class="form-label">Nombre Artículo:</label>
+            <input type="text" [(ngModel)]="getPocionItem.nombre" name="nombre" class="form-input" disabled>
+            <br>
+            <label class="form-label">Nombre Comprador:</label>
+            <input type="text" [(ngModel)]="purchase.nombre_client" name="comprador" class="form-input">
+            <br>
+            <label class="form-label">Cantidad:</label>
+            <input type="text" [(ngModel)]="purchase.cantidad" name="cantidad" class="form-input">
+            <br>
+            <label class="form-label">Dirección:</label>
+            <input type="text" [(ngModel)]="purchase.direccion" name="direccion" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Comprar</button>
+        </form>
+        <!-- Formulario para recuperar las compras de un cliente -->
+        <form *ngIf="selectedAction === 'history'" (ngSubmit)="getPurchases(1)" class="form-container">
+            <label class="form-label">Buscar todas tus compras:</label>
+            <input type="text" [(ngModel)]="idUsuario" name="nombre-cliente" class="form-input" disabled>
+            <button type="submit" class="form-btn">Buscar</button>
+        </form>
+        <!-- Formulario para recuperar las compras de un cliente por nombre -->
+        <form *ngIf="selectedAction === 'history'" (ngSubmit)="getPurchases(2)" class="form-container">
+            <label class="form-label">Nombre del cliente:</label>
+            <input type="text" [(ngModel)]="nombre_cliente" name="nombre-cliente" class="form-input">
+            <button type="submit" class="form-btn">Buscar</button>
+        </form>
+        <!-- Formulario para recuperar las compras de un cliente por nombre -->
+        <form *ngIf="selectedAction === 'history'" (ngSubmit)="getPurchases(3)" class="form-container">
+            <label class="form-label">Cantidad mínima:</label>
+            <input type="text" [(ngModel)]="cantidad_minima" name="cantidad-min" class="form-input">
+            <br>
+            <label class="form-label">Cantidad máxima:</label>
+            <input type="text" [(ngModel)]="cantidad_maxima" name="cantidad-max" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Filtrar por cantidad</button>
+        </form>
+        <!-- Formulario para modificar una compra -->
+        <form *ngIf="selectedAction === 'update'" (ngSubmit)="updateCompra()" class="form-container">
+            <label class="form-label">ID Compra:</label>
+            <input type="text" [(ngModel)]="updatePurchase._id" name="id" class="form-input" disabled>
+            <br>
+            <label class="form-label">Artículo:</label>
+            <input type="text" [(ngModel)]="updatePurchase.nombre_item" name="item-name" class="form-input" disabled>
+            <br>
+            <label class="form-label">Cantidad:</label>
+            <input type="text" [(ngModel)]="updatePurchase.cantidad" name="cantidad" class="form-input" disabled>
+            <br>
+            <label class="form-label">Comprador:</label>
+            <input type="text" [(ngModel)]="updatePurchase.nombre_client" name="user-name" class="form-input">
+            <br>
+            <label class="form-label">Dirección:</label>
+            <input type="text" [(ngModel)]="updatePurchase.direccion" name="direccion" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Modificar</button>
+        </form>
+        <!-- Formulario para eliminar una compra -->
+        <form *ngIf="selectedAction === 'delete'" (ngSubmit)="deleteCompra()" class="form-container">
+            <label class="form-label">ID Compra:</label>
+            <input type="text" [(ngModel)]="updatePurchase._id" name="id" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Eliminar</button>
+        </form>
+    </div>
+</div>
+
+<div class="split right">
+    <div class="response-section">
+        <div *ngIf="printResponse" class="response-container">
+            <p class="response-data"><b>ID:</b> {{ getPocionItem._id }}</p>
+            <p class="response-data"><b>Nombre:</b> {{ getPocionItem.nombre }}</p>
+            <p class="response-data"><b>Duración:</b> {{ getPocionItem.duracion }}</p>
+            <p class="response-data"><b>Arrojadiza:</b> {{ getPocionItem.arrojadiza }}</p>
+            <p class="response-data"><b>Cantidad:</b> {{ getPocionItem.cantidad }}</p>
+            <p class="response-data"><b>Precio:</b> {{ getPocionItem.precio }}</p>
+            <img src={{getPocionItem.imagen}} class="image" />
+        </div>
+        <div *ngFor="let pocion of pocionArray; let i = index">
+            <div *ngIf="printAll" class="response-container">
+                <div class="nav-btn-container">
+                    <button (click)="seleccionar(i)" class="nav-btn">Seleccionar</button>
+                </div>
+                <p class="response-data"><b>ID:</b> {{ pocion._id }}</p>
+                <p class="response-data"><b>Nombre:</b> {{ pocion.nombre }}</p>
+                <p class="response-data"><b>Duración:</b> {{ pocion.duracion }}</p>
+                <p class="response-data"><b>Arrojadiza:</b> {{ pocion.arrojadiza }}</p>
+                <p class="response-data"><b>Cantidad:</b> {{ pocion.cantidad }}</p>
+                <p class="response-data"><b>Precio:</b> {{ pocion.precio }}</p>
+                <img src={{pocion.imagen}} class="image" />
+            </div>
+        </div>
+        <div *ngFor="let pocion of pocionArray; let i = index">
+            <div *ngIf="printFilter" class="response-container">
+                <div class="nav-btn-container">
+                    <button (click)="seleccionar(i)" class="nav-btn">Seleccionar</button>
+                </div>
+                <p class="response-data"><b>ID:</b> {{ pocion._id }}</p>
+                <p class="response-data"><b>Nombre:</b> {{ pocion.nombre }}</p>
+                <p class="response-data"><b>Duración:</b> {{ pocion.duracion }}</p>
+                <p class="response-data"><b>Arrojadiza:</b> {{ pocion.arrojadiza }}</p>
+                <p class="response-data"><b>Cantidad:</b> {{ pocion.cantidad }}</p>
+                <p class="response-data"><b>Precio:</b> {{ pocion.precio }}</p>
+                <img src={{pocion.imagen}} class="image" />
+
+            </div>
+        </div>
+        <div *ngIf="printPurchase" class="response-container">
+            <p class="response-data"><b>ID Compra:</b> {{ updatePurchase._id }}</p>
+            <p class="response-data"><b>ID Usuario:</b> {{ updatePurchase.id_user }}</p>
+            <p class="response-data"><b>Nombre Artículo:</b> {{ updatePurchase.nombre_item }}</p>
+            <p class="response-data"><b>Nombre Comprador:</b> {{ updatePurchase.nombre_client }}</p>
+            <p class="response-data"><b>Cantidad:</b> {{ updatePurchase.cantidad }}</p>
+            <p class="response-data"><b>Dirección:</b> {{ updatePurchase.direccion }}</p>
+            <div *ngFor="let item of purchase.item" class="item-details">
+                <p class="response-data"><b>ID Artículo:</b> {{ item._id }}</p>
+                <p class="response-data"><b>Nombre:</b> {{ item.nombre }}</p>
+                <p class="response-data"><b>Duración:</b> {{ item.duracion }}</p>
+                <p class="response-data"><b>Arrojadiza:</b> {{ item.arrojadiza }}</p>
+                <p class="response-data"><b>Cantidad:</b> {{ item.cantidad }}</p>
+                <p class="response-data"><b>Precio:</b> {{ item.precio }}</p>
+                <img src={{item.imagen}} class="image" />
+            </div>
+        </div>
+        <div *ngFor="let purchase of purchaseList; let i = index">
+            <div *ngIf="printPurchases" class="response-container">
+                <div class="nav-btn-container">
+                    <button (click)="seleccionar_compra(i)" class="nav-btn">Seleccionar</button>
+                </div>
+                <p class="response-data"><b>ID Compra:</b> {{ purchase._id }}</p>
+                <p class="response-data"><b>Nombre Artículo:</b> {{ purchase.nombre_item }}</p>
+                <p class="response-data"><b>Nombre Comprador:</b> {{ purchase.nombre_client }}</p>
+                <p class="response-data"><b>Cantidad:</b> {{ purchase.cantidad }}</p>
+                <p class="response-data"><b>Dirección:</b> {{ purchase.direccion }}</p>
+                <div *ngFor="let item of purchase.item" class="item-details">
+                    <p class="response-data"><b>ID Artículo:</b> {{ item._id }}</p>
+                    <p class="response-data"><b>Nombre:</b> {{ item.nombre }}</p>
+                    <p class="response-data"><b>Duración:</b> {{ item.duracion }}</p>
+                    <p class="response-data"><b>Arrojadiza:</b> {{ item.arrojadiza }}</p>
+                    <p class="response-data"><b>Cantidad:</b> {{ item.cantidad }}</p>
+                    <p class="response-data"><b>Precio:</b> {{ item.precio }}</p>
+                    <img src={{item.imagen}} class="image" />
+                </div>
+            </div>
+        </div>
+        <div *ngIf="printDelete">
+            <p class="post-response">Objeto Eliminado</p>
+        </div>
+    </div>
+    <div *ngIf="printAddCorrectly" class="response-container">
+        <p class="post-response">Compra realizada: {{ id_compra }} </p>
+    </div>
+</div>

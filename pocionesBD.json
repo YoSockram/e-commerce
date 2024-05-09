@@ -1,0 +1,8 @@
+{"_id":{"$oid":"641b5c65563874621db92ac4"},"precio":8,"cantidad":3,"nombre":"Invisibilidad","duracion":3,"arrojadiza":false,"__v":0,"imagen":"https://hypixel.net/attachments/potion_of_invisibility-gif.2276252/"}
+{"_id":{"$oid":"641b5d24639f5f8ca2c26a5d"},"precio":9,"cantidad":6,"nombre":"Fuerza","duracion":3,"arrojadiza":false,"imagen":"https://wiki.hypixel.net/images/0/05/SkyBlock_items_potion_of_strength.gif","__v":0}
+{"_id":{"$oid":"641b5d5c639f5f8ca2c26a60"},"precio":4,"cantidad":8,"nombre":"Salto","duracion":3,"arrojadiza":false,"imagen":"https://wiki.hypixel.net/images/6/6b/SkyBlock_items_potion_of_leaping.gif","__v":0}
+{"_id":{"$oid":"641b5da1639f5f8ca2c26a63"},"precio":11,"cantidad":2,"nombre":"Resistencia al fuego","duracion":4,"arrojadiza":false,"imagen":"https://wiki.hypixel.net/images/f/f0/SkyBlock_items_potion_of_fire_resistance.gif","__v":0}
+{"_id":{"$oid":"641b5df6639f5f8ca2c26a65"},"precio":6,"cantidad":5,"nombre":"Respiración bajo el agua","duracion":4,"arrojadiza":true,"imagen":"https://wiki.hypixel.net/images/c/c9/SkyBlock_items_splash_potion_of_water_breathing.gif","__v":0}
+{"_id":{"$oid":"641b60b5639f5f8ca2c26a6a"},"precio":4,"cantidad":5,"nombre":"Curación","duracion":0,"arrojadiza":false,"imagen":"https://wiki.hypixel.net/images/e/ed/SkyBlock_items_potion_of_healing.gif","__v":0}
+{"_id":{"$oid":"641b619a639f5f8ca2c26a6d"},"precio":9,"cantidad":4,"nombre":"Regeneración","duracion":2,"arrojadiza":false,"imagen":"https://wiki.hypixel.net/images/9/93/SkyBlock_items_potion_of_regeneration.gif","__v":0}
+{"_id":{"$oid":"641b627f639f5f8ca2c26a70"},"precio":7,"cantidad":60,"nombre":"Experiencia","duracion":0,"arrojadiza":true,"imagen":"https://i.redd.it/cp4megq2xdf71.gif","__v":0}

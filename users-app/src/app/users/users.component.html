@@ -1,0 +1,61 @@
+<header>
+    <nav>
+        <ul>
+            <li (click)="selectedAction='add'">Registrar</li>
+            <li (click)="selectedAction='delete'">Eliminar</li>
+            <li (click)="selectedAction='list'">Listar</li>
+        </ul>
+    </nav>
+</header>
+
+<div class="split left">
+    <div class="form-section">
+        <div class="form-container">
+            <label>ID Usuario: </label>
+            <input type="text" [(ngModel)]="idUsuario" name="idUsuario" class="form-input" />
+        </div>
+        <!-- Formulario para añadir un usuario a la base de datos -->
+        <form *ngIf="selectedAction === 'add'" (ngSubmit)="addUser()" class="form-container">
+            <label class="form-label">Rol:</label>
+            <!-- <input type="text" [(ngModel)]="user.rol" name="rol" class="form-input"> -->
+            <select [(ngModel)]="user.rol" name="rol" class="form-input">
+                <option value="Cliente">Cliente</option>
+                <option value="Admin">Administrador</option>
+            </select>
+            <br>
+            <button type="submit" class="form-btn">Registrar</button>
+        </form>
+        <!-- Formulario para eliminar un usuario -->
+        <form *ngIf="selectedAction === 'delete'" (ngSubmit)="deleteUser()" class="form-container">
+            <label class="form-label">ID Usuario:</label>
+            <input type="text" [(ngModel)]="user._id" name="rol" class="form-input">
+            <br>
+            <button type="submit" class="form-btn">Eliminar</button>
+        </form>
+        <!-- Formulario para listar los usuarios registrados -->
+        <form *ngIf="selectedAction === 'list'" (ngSubmit)="listUsers()" class="form-container">
+            <label class="form-label">Buscar usuarios:</label>
+            <select [(ngModel)]="searchType" name="searchType" class="form-input">
+                <option value="all">Todos</option>
+                <option value="cliente">Clientes</option>
+                <option value="admin">Administradores</option>
+            </select>
+            <br>
+            <button type="submit" class="form-btn">Buscar</button>
+        </form>
+    </div>
+</div>
+
+<div class="split right">
+    <div class="response-section">
+        <div *ngFor="let user of userList; let i = index">
+            <div *ngIf="printAll" class="response-container">
+                <!-- <div class="nav-btn-container">
+                    <button (click)="seleccionar(i)" class="nav-btn">Seleccionar</button>
+                </div> -->
+                <p class="response-data"><b>ID:</b> {{ user._id }}</p>
+                <p class="response-data"><b>Rol:</b> {{ user.rol }}</p>
+            </div>
+        </div>
+    </div>
+</div>
